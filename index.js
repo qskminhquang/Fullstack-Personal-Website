@@ -1,18 +1,21 @@
 const express = require('express');
 const path = require('path');
-const generatePassword = require('password-generator');
+const NodeRSA = require('node-rsa');
 const app = express();
+var count = 0;
 
 // Put all API endpoints under '/api'
-app.get('/api/passwords', (req, res) => {
-  const count = 5;
-  // Generate some passwords
-  const passwords = Array.from(Array(count).keys()).map(i =>
-    generatePassword(12, false)
-  )
+app.get('/api/create-rsa-key', (req, res) => {
+  count++;
+  // Generate RSA Key
+  var key = new NodeRSA({b: 2048});
+  var keyPair = {
+	privatePem: key.exportKey('private'),
+	publicPem: key.exportKey('public')
+  };
   // Return them as json
-  res.json(passwords);
-  console.log(`Sent ${count} passwords`);
+  res.json(keyPair);
+  console.log('Created new RSAKey #' + count);
 });
 
 if (process.env.NODE_ENV === 'production') {
@@ -27,4 +30,4 @@ if (process.env.NODE_ENV === 'production') {
 
 const port = process.env.PORT || 5000;
 app.listen(port);
-console.log(`Password generator listening on ${port}`);
+console.log('Back-end listening on port', port);

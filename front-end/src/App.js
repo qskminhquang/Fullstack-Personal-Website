@@ -4,29 +4,19 @@ import './App.css';
 
 class App extends Component {
   // Initialize state
-  state = { privatePem: null, publicPem: null, isLoading: false };
+  state = {
+	privatePem: null,
+	publicPem: null,
+	isLoadingKey: false,
+	RSACipherText: null,
+	isRSAEncrypting: false
+	};
   // Fetch RSAKey after first mount
   componentDidMount() {
 	document.title = 'Simple Cryptography | qskminhquang.tk';
-	this.createRSAKey();
-  }
-
-  createRSAKey() {
-	this.setState({isLoading: true});
 	this.getRSAKey();
   }
-  
-  // Get the RSAKey and store them in state
-  getRSAKey() {
-    fetch('/api/create-rsa-key')
-      .then(res => res.json())
-      .then(data => this.setState({
-		privatePem: data.privatePem,
-		publicPem: data.publicPem,
-		isLoading: false
-	  }));
-  }
-  
+
   scrollToTop(e) {
 	e.preventDefault();
     scroll.scrollToTop({
@@ -36,7 +26,7 @@ class App extends Component {
     });
   }
 
-  // document.getElementById("sec01").offsetTop;
+  // document.getElementById("section03").offsetTop;
   scrollTo(e, offset) {
 	e.preventDefault();
     scroll.scrollTo(offset - 70, {
@@ -45,11 +35,38 @@ class App extends Component {
       smooth: 'easeInOutQuart'
     });
   }
+  
+  // Get the RSAKey and store them in state
+  getRSAKey() {
+	this.setState({isLoadingKey: true});
+    fetch('/api/create-rsa-key')
+      .then(res => res.json())
+      .then(data => this.setState({
+		privatePem: data.privatePem,
+		publicPem: data.publicPem,
+		isLoadingKey: false
+	  }));
+  }
+  
+  // Send Key, Plain-text and get the Cipher-text and store in state
+  RSAEncryption(e) {
+	this.setState({isRSAEncrypting: true});
+    e.preventDefault();
+    const data = new FormData(e.target);
+    fetch('/api/rsa-encryption', {
+      method: 'POST',
+      body: data,
+    }).then(res => res.json())
+	.then(data => this.setState({
+		RSACipherText: data.RSACipherText,
+		isRSAEncrypting: false
+	}));
+  }
 
   render() {
-    const {privatePem, publicPem, isLoading} = this.state;
+    const {privatePem, publicPem, isLoadingKey} = this.state;
 		var buttonValue = "Create RSA Key";
-		if (isLoading) buttonValue = "  Loading...  ";
+		if (isLoadingKey) buttonValue = "  Loading...  ";
     return (
 		<div className="App">
 			{/* Header & Navigation */}
@@ -64,7 +81,7 @@ class App extends Component {
 								onClick={(e) => this.scrollTo(e, 600)}>
 								Create RSA Key</a></li>
 							<li><a href="#section02"
-								onClick={(e) => this.scrollTo(e, 0 + 1271)}>
+								onClick={(e) => this.scrollTo(e, 600 + 1414 - 110)}>
 								Key Exchange</a></li>
 							<li><a href="#section03"
 								onClick={(e) => this.scrollTo(e, 0 + 1833)}>
@@ -86,28 +103,36 @@ class App extends Component {
 			</div>
 			{/* List Section */}
 			<div className="row content">
-				{/* Section 01: ???*/}
-				<h1 id="section01">Khởi tạo khóa RSA</h1>
-				<p>Cặp khóa khởi tạo bằng module <a href="https://www.npmjs.com/package/node-rsa">node-rsa</a>, có độ dài 2048-bits và được hiển thị dưới định dạng PEM-Base64 với tiêu chuẩn PKCS#1 cho khóa Private và PKCS#8 cho khóa Public.</p>
+				{/* Section 01: Create RSA Key */}
+				<h1 id="section01">Khởi tạo khóa</h1>
+				<p>Tiến hành việc sinh khóa RSA. Trong đó, cặp khóa khởi tạo bằng module <a href="https://www.npmjs.com/package/node-rsa">node-rsa</a>, có độ dài 2048-bits và được hiển thị dưới định dạng PEM-Base64 với tiêu chuẩn PKCS#1 cho khóa Private và PKCS#8 cho khóa Public.</p>
 				<div className="code-area">
-					<input type="button" disabled={isLoading}
+					<input type="button" disabled={isLoadingKey}
 						className="button" value={buttonValue}
-						onClick={this.createRSAKey.bind(this)}/>
+						onClick={this.getRSAKey.bind(this)}/>
 					<h2>Private Key</h2>
 					<p>{privatePem}</p>
 					<h2>Public Key</h2>
 					<p>{publicPem}</p>
 				</div>
-				{/* Section 02: ???*/}
-				<h1 id="section02">Section 02</h1>
+				{/* Section 02: Key Exchange */}
+				<h1 id="section02">trao đổi khóa</h1>
+				<p>Trong đồ án này nhóm không thực hiện một thuật toán trao đổi khóa chính quy (như Diffie–Hellman,...) mà chỉ thực hiện việc mã hóa một khóa AES cho trước bằng RSA hoặc tiến hành việc giải mã ngược lại để lấy khóa.</p>
+				<form onSubmit={this.RSAEncryption.bind(this)}>
+					<label htmlFor="username">Enter username</label>
+					<input id="username" name="username" type="text" />
+					<label htmlFor="email">Enter your email</label>
+					<input id="email" name="email" type="email" />
+					<label htmlFor="birthdate">Enter your birth date</label>
+					<input id="birthdate" name="birthdate" type="text" />
+					<button>Send data!</button>
+				</form>
+				{/* Section 03: Sign/Verify */}
+				<h1 id="section03">Ký và xác mimh chữ ký</h1>
 				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-				{/* Section 03: ???*/}
-				<h1 id="section03">Section 03</h1>
+				{/* Section 04: AES Encryption */}
+				<h1 id="section04">Mã hóa dữ liệu</h1>
 				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-				{/* Section 04: ???*/}
-				<h1 id="section04">Section 04</h1>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-				{/* Section 05: ???*/}
 			</div>
 		</div>
     );

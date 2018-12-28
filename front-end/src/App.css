@@ -47,6 +47,25 @@
   color: #F28500;
 }
 
+/* Footer */
+.my-footer {
+  position: relative;
+  bottom: 0;
+  margin-top: 50px;
+  height: 80px;
+  width: 100%;
+  border-top: 1px solid gainsboro;
+  text-align: center;
+  padding-top: 30px;
+}
+.my-footer li {
+  font-family: "Roboto Slab", serif;
+  font-size: 12;
+}
+.my-footer li a {
+  color: #F28500
+}
+
 /* Navigation */
 .my-nav {
   float: right;
@@ -150,6 +169,121 @@
   padding: 50px 2% 250px;
 }
 
+/* Input Text */
+.Input {
+  position: relative;
+}
+.Input-text {
+  width: 100%;
+  overflow: auto;
+  display: block;
+  padding: 10px 25px;
+  background-color: #F9F9F9;
+  color: #8f8f8f;
+  font-size: 18px;
+  font-weight: 400;
+  font-family: "Courier New", monospace;
+  line-height: 2;
+  border: 1px solid #e8e8e8;
+  margin-bottom: 20px;
+}
+.Input-text:focus {
+  outline: 1px solid #F28500;
+}
+.Input-text::placeholder {
+  color: #8f8f8f;
+  opacity: 0.6;
+}
+
+/* Output Code */
+.Output {
+  position: relative;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.Output h2 {
+  font-family: "Courier New", monospace;
+  font-size: 24px;
+  font-weight: 500;
+  text-decoration: underline overline;
+  background-color: #F9F9F9;
+  padding: 20px 25px 10px 25px;
+  margin-bottom: 0;
+  border: 1px solid #e8e8e8;
+  border-bottom: none;
+}
+.Output p {
+  font-family: "Courier New", monospace;
+  list-style: none;
+  padding: 10px 25px;
+  font-size: 14px;
+  text-align: center;
+  background-color: #F9F9F9;
+  margin-top: 0;
+  border: 1px solid #e8e8e8;
+  border-top: none;
+}
+.Output textarea {
+  display: block;
+  margin-bottom: 20px;
+  padding: 10px 25px;
+  width: 100%;
+  overflow: auto;
+  color: #8f8f8f;
+  font-family: "Courier New", monospace;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 2;
+  border: 1px solid #e8e8e8;
+  background-color: #F9F9F9;
+  border-top: none;
+}
+.Output-result {
+  padding: 10px 25px;
+  font-family: "Courier New", monospace;
+  font-size: 18px;
+  font-weight: 400;
+  color: #8f8f8f;
+  background-color: #F9F9F9;
+  position: absolute;
+  right: 0px;
+  width: 684px;
+  height: 45px;
+  border: 1px solid #e8e8e8;
+  margin-bottom: 20px;
+}
+
+/* Select */
+.select {
+  color: #8f8f8f;
+  font-family: "Courier New", monospace;
+  font-size: 18px;
+  font-weight: 400;
+  border: 1px solid #e8e8e8;
+  background-color: #F9F9F9;
+  padding: 10px 25px;
+  width: 684px;
+  height: 45px;
+  margin-right: 20px;
+}
+
+/* Button */
+.button {
+  font-size: 20px;
+  font-family: "Courier New", monospace;
+  color: #fff;
+  border: 1px solid #8f8f8f;
+  background-color: #8f8f8f;
+  padding: 10px 25px;
+}
+.button:hover {
+  background-color: #F28500;
+}
+.button:disabled {
+  color: #8f8f8f;
+  background-color: #fff;
+}
+
 /* Text Format */
 a {
   text-decoration: none;
@@ -170,49 +304,6 @@ p {
   margin-bottom: 20px;
   font-size: 18px;
   line-height: 2;
-}
-
-.code-area {
-  text-align: center;
-  margin-top: 1em;
-  margin-bottom: 1em;
-}
-
-.code-area h2 {
-  font-family: "Courier New", monospace;
-  font-size: 24px;
-  font-weight: 500;
-  text-decoration: underline overline;
-  background-color: #F9F9F9;
-  padding-top: 10px;
-  margin-bottom: 0;
-}
-
-.code-area p {
-  font-family: "Courier New", monospace;
-  list-style: none;
-  padding: 10px 10px 10px 10px;
-  font-size: 14px;
-  text-align: center;
-  background-color: #F9F9F9;
-  margin-top: 0;
-}
-
-/* Button */
-.button {
-  font-size: 20px;
-  font-family: "Courier New", monospace;
-  color: #fff;
-  border: 1px solid #8f8f8f;
-  background-color: #8f8f8f;
-  padding: 10px 25px;
-}
-.button:hover {
-  background-color: #F28500;
-}
-.button:disabled {
-  color: #8f8f8f;
-  background-color: #fff;
 }
 
 @keyframes App-logo-spin {

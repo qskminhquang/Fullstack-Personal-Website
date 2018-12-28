@@ -1,7 +1,7 @@
 {
-  "name": "random-pass",
+  "name": "Simple-Cryptography",
   "version": "1.0.0",
-  "description": "This app create random password",
+  "description": "Back-end of https://crypto.qskminhquang.tk",
   "main": "index.js",
   "keywords": [],
   "author": "qskminhquang",
@@ -15,9 +15,9 @@
     "dev": "concurrently --kill-others-on-fail \"npm run back-end\" \"npm run front-end\""
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "node-rsa": "^1.0.2",
-    "password-generator": "^2.2.0"
+    "node-rsa": "^1.0.2"
   },
   "devDependencies": {
     "concurrently": "^4.1.0"

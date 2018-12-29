@@ -59,8 +59,10 @@ class App extends Component {
 
   scrollTo(e, ref) {
 	e.preventDefault();
+	var fix = 600 - 70;
 	var element = ReactDOM.findDOMNode(this.refs[ref]);
-    scroll.scrollTo(element.offsetTop + 600 - 70, {
+	if(ref === 'aes-encryption') fix += 8;
+    scroll.scrollTo(element.offsetTop + fix, {
       duration: 800,
       delay: 0,
       smooth: 'easeInOutQuart'

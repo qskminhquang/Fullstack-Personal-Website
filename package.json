@@ -17,7 +17,8 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "node-rsa": "^1.0.2"
+    "node-rsa": "^1.0.2",
+    "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
     "concurrently": "^4.1.0"

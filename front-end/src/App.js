@@ -30,7 +30,7 @@ class App extends Component {
   componentDidMount() {
 	document.title = 'Simple Cryptography | qskminhquang.tk';
 	window.onscroll = () => {
-		if(window.pageYOffset < 150)
+		if(window.pageYOffset < 100)
 			this.setState({hasClassSticky: false});
 		else
 			this.setState({hasClassSticky: true});

@@ -43,7 +43,8 @@ app.post('/api/rsa-encryption', (req, res) => {
 		result = result.toString('utf8');
 	  }
   } catch(error) {
-	  console.error(error);
+	  console.error(error.message);
+	  //console.error(error.stack);
 	  // expected output: ReferenceError: nonExistentFunction is not defined
 	  // Note - error messages will vary depending on browser
   }
@@ -75,7 +76,7 @@ app.post('/api/rsa-sign', (req, res) => {
 		result = result.toString();
 	  }
   } catch(error) {
-	  console.error(error);
+	  console.error(error.message);
 	  // expected output: ReferenceError: nonExistentFunction is not defined
 	  // Note - error messages will vary depending on browser
   }
@@ -106,7 +107,7 @@ app.post('/api/aes-encryption', (req, res) => {
 		result += cipher.final('utf8');
 	  }
   } catch(error) {
-	  console.error(error);
+	  console.error(error.message);
 	  // expected output: ReferenceError: nonExistentFunction is not defined
 	  // Note - error messages will vary depending on browser
   }

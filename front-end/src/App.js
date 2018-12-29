@@ -8,6 +8,7 @@ class App extends Component {
   // Initialize state
   state = {
 	widthOfPage: 888,
+	fixOffsetTop: 600 - 70,
 	hasClassOpenNav: false,
 	hasClassSticky: true,
 	privatePem: null,
@@ -37,13 +38,15 @@ class App extends Component {
     };
 	this.getRSAKey();
 	this.setState({widthOfPage: window.innerWidth});
+	if(window.innerWidth <= 360)
+		this.setState({fixOffsetTop: 560 - 70});
   }
   
   componentWillUnmount() {
     window.onscroll = null;
   }
   
-  addClassOpenNav(e) {
+  clickToggle(e) {
 	e.preventDefault();
     this.setState({hasClassOpenNav: !this.state.hasClassOpenNav});
   }
@@ -59,14 +62,16 @@ class App extends Component {
 
   scrollTo(e, ref) {
 	e.preventDefault();
-	var fix = 600 - 70;
 	var element = ReactDOM.findDOMNode(this.refs[ref]);
-	if(ref === 'aes-encryption') fix += 8;
-    scroll.scrollTo(element.offsetTop + fix, {
+	var y = this.state.fixOffsetTop;
+	if(ref === 'aes-encryption')
+		y += 4;
+    scroll.scrollTo(element.offsetTop + y, {
       duration: 800,
       delay: 0,
       smooth: 'easeInOutQuart'
     });
+	this.setState({hasClassOpenNav: false});
   }
   
   // Get the RSAKey and store them in state
@@ -192,7 +197,7 @@ class App extends Component {
 		HeaderClass.push('open-nav');
 		ToggleClass.push('click');
 	}
-	if(this.state.widthOfPage < 650) {
+	if(this.state.widthOfPage <= 768) {
 		doit = "Done";
 		loading = "Wait";
 	}
@@ -213,7 +218,7 @@ class App extends Component {
 						onClick={this.scrollToTop}>
 						428/512</a>
 					<div className={ToggleClass.join(" ")}
-						onClick={this.addClassOpenNav.bind(this)}>
+						onClick={this.clickToggle.bind(this)}>
 						<span></span>
 						<span></span>
 						<span></span>
@@ -249,7 +254,7 @@ class App extends Component {
 			<div className="row content">
 				{/* Section 01: Create RSA Key */}
 				<h1 id="create-rsa-key" ref="create-rsa-key">Khởi tạo khóa</h1>
-				<p>Tiến hành việc sinh khóa RSA. Trong đó, cặp khóa khởi tạo bằng module <a href="https://www.npmjs.com/package/node-rsa" target="_blank" rel="noopener noreferrer">node-rsa</a>, có độ dài 2048-bits và được hiển thị dưới định dạng PEM-Base64 với tiêu chuẩn PKCS#1 cho khóa Private và PKCS#8 cho khóa Public.</p>
+				<p>Tiến hành việc sinh khóa RSA. Trong đó, cặp khóa khởi tạo bằng module <a href="https://www.npmjs.com/package/node-rsa" target="_blank" rel="noopener noreferrer">node-rsa</a>, có độ dài 2048-bits và được hiển thị dưới định dạng PEM-Base64 với tiêu chuẩn PKCS#1 cho khóa Private và PKCS#8 cho khóa Public. Các khóa RSA người dùng nhập vào để sử dụng ở các phần sau đều phải tuân theo đúng định dạng này.</p>
 				<div className="Output">
 					<input type="button" disabled={this.state.isLoadingKey}
 						className="button" value={buttonValueS01}
@@ -261,7 +266,7 @@ class App extends Component {
 				</div>
 				{/* Section 02: Key Exchange */}
 				<h1 id="rsa-encryption" ref="rsa-encryption">trao đổi khóa</h1>
-				<p>Trong đồ án này nhóm không thực hiện một thuật toán trao đổi khóa chính quy (như Diffie–Hellman,...) mà chỉ thực hiện việc mã hóa một khóa AES cho trước bằng RSA hoặc tiến hành việc giải mã ngược lại để lấy khóa.</p>
+				<p>Trong đồ án này nhóm chỉ sử dụng RSA để trao đổi khóa, chứ không triển khai các thuật toán khác như Diffie–Hellman, ECDH, PSK,... Cụ thể, sẽ thực hiện việc mã hóa một khóa AES cho trước bằng RSA hoặc tiến hành việc giải mã ngược lại để thu được khóa ban đầu. Nói cách khác đây chính là quá trình mã hóa/giải mã dữ liệu người dùng nhập vào bằng RSA.</p>
 				<textarea name="RSAKey" className="Input-text" rows="3"
 					onChange={this.handleChange.bind(this)}
 					placeholder="Nhập khóa RSA. Khóa Public/Private để mã hóa hoăc giải mã ..."/>
@@ -283,7 +288,7 @@ class App extends Component {
 				</div>
 				{/* Section 03: Sign/Verify */}
 				<h1 id="rsa-sign" ref="rsa-sign">Ký và xác minh chữ ký</h1>
-				<p>Sử dụng RSA để tạo chữ ký (Sign) cho dữ liệu hoặc xác minh chữ ký (Verify) xem có ứng với dữ liệu gốc hay không. Tiến hành nhập đầy đủ các thông tin bên dưới và thực thi.</p>
+				<p>Sử dụng RSA để tạo chữ ký (Sign) cho dữ liệu hoặc xác minh chữ ký (Verify) xem có ứng với dữ liệu gốc hay không. Cả hai quá trình phải thực hiện trên cùng một dữ liệu ban đầu.</p>
 				<textarea name="RSAKey" className="Input-text"
 					onChange={this.handleChange.bind(this)} rows="3"
 					placeholder="Nhập khóa RSA. Khóa Private/Public để ký hoăc kiểm tra chữ ký ..."/>
@@ -303,7 +308,7 @@ class App extends Component {
 				</div>
 				{/* Section 04: AES Encryption */}
 				<h1 id="aes-encryption" ref="aes-encryption">Mã hóa dữ liệu</h1>
-				<p>Tiến hành thực hiện mã hóa/giải mã dữ liệu nhập vào bằng thuật toán AES với khóa 256-bits và Mode-CBC (Cipher Block Chaining). Ngoài ra còn sử dụng hàm băm SHA-256 để băm khóa người dùng nhập vào, đảm bảo khóa cuối cùng có độ dài đúng bằng 256-bits.</p>
+				<p>Sử dụng hàm băm SHA-256 để băm khóa người dùng nhập vào, đảm bảo thu được khóa cuối cùng có độ dài đúng bằng 256-bits. Sau đó tiến hành thực hiện việc mã hóa/giải mã dữ liệu được cung cấp bằng thuật toán AES Mode-CBC (Cipher Block Chaining) với khóa kể trên. Bản mã sau khi mã hóa sẽ được Encode-Base64.</p>
 				<textarea name="inputText" className="Input-text" rows="3"
 					onChange={this.handleChange.bind(this)}
 					placeholder="Nhập dữ liệu ..."/>

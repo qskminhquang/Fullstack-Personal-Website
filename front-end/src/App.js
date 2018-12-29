@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import Scroll from 'react-scroll'
 import './App.css';
 var scroll = Scroll.animateScroll;
@@ -6,6 +7,7 @@ var scroll = Scroll.animateScroll;
 class App extends Component {
   // Initialize state
   state = {
+	widthOfPage: 888,
 	hasClassOpenNav: false,
 	hasClassSticky: true,
 	privatePem: null,
@@ -34,6 +36,7 @@ class App extends Component {
 			this.setState({hasClassSticky: true});
     };
 	this.getRSAKey();
+	this.setState({widthOfPage: window.innerWidth});
   }
   
   componentWillUnmount() {
@@ -54,9 +57,10 @@ class App extends Component {
     });
   }
 
-  scrollTo(e, offset) {
+  scrollTo(e, ref) {
 	e.preventDefault();
-    scroll.scrollTo(offset, {
+	var element = ReactDOM.findDOMNode(this.refs[ref]);
+    scroll.scrollTo(element.offsetTop + 600 - 70, {
       duration: 800,
       delay: 0,
       smooth: 'easeInOutQuart'
@@ -177,10 +181,8 @@ class App extends Component {
   render() {
 	var HeaderClass = ['my-header'],
 		ToggleClass = ['my-toggle'],
-		buttonValueS01 = "Create RSA Key",
-		buttonValueS02 = "Let's do it",
-		buttonValueS03 = "Let's do it",
-		buttonValueS04 = "Let's do it";
+		doit = "Let's do it",
+		loading = "Loading... ";
 	if(this.state.hasClassSticky) {
 		HeaderClass.push('sticky');
 	}
@@ -188,10 +190,18 @@ class App extends Component {
 		HeaderClass.push('open-nav');
 		ToggleClass.push('click');
 	}
+	if(this.state.widthOfPage < 650) {
+		doit = "Done";
+		loading = "Wait";
+	}
+	var buttonValueS01 = "Create RSA Key",
+		buttonValueS02 = doit,
+		buttonValueS03 = doit,
+		buttonValueS04 = doit;
 	if (this.state.isLoadingKey) buttonValueS01 = "  Loading...  ";
-	if (this.state.isRSAEncrypting) buttonValueS02 = "Loading... ";
-	if (this.state.isRSASigning) buttonValueS03 = "Loading... ";
-	if (this.state.isAESEncrypting) buttonValueS04 = "Loading... ";
+	if (this.state.isRSAEncrypting) buttonValueS02 = loading;
+	if (this.state.isRSASigning) buttonValueS03 = loading;
+	if (this.state.isAESEncrypting) buttonValueS04 = loading;
     return (
 		<div className="App">
 			{/* Header & Navigation */}
@@ -210,16 +220,16 @@ class App extends Component {
 						<ul>
 							{/*document.getElementById("create-rsa-key").offsetTop;*/}
 							<li><a href="#create-rsa-key"
-								onClick={(e) => this.scrollTo(e, 600 - 70)}>
+								onClick={(e) => this.scrollTo(e, "create-rsa-key")}>
 								Create RSA Key</a></li>
 							<li><a href="#rsa-encryption"
-								onClick={(e) => this.scrollTo(e, 1346 + 600 - 70)}>
+								onClick={(e) => this.scrollTo(e, "rsa-encryption")}>
 								Key Exchange</a></li>
 							<li><a href="#rsa-sign"
-								onClick={(e) => this.scrollTo(e, 2134 + 600 - 70)}>
+								onClick={(e) => this.scrollTo(e, "rsa-sign")}>
 								Sign/Verify</a></li>
 							<li><a href="#aes-encryption"
-								onClick={(e) => this.scrollTo(e, 2827 + 600 - 70)}>
+								onClick={(e) => this.scrollTo(e, "aes-encryption")}>
 								AES Encryption</a></li>
 						</ul>
 					</nav>
@@ -262,7 +272,7 @@ class App extends Component {
 						<option value="Decryption">Decryption: Giải mã khóa AES bằng RSA với khóa Private.</option>
 					  </select>
 					<input type="button" disabled={this.state.isRSAEncrypting}
-						className="button" value={buttonValueS02}
+						className="button multi-line" value={buttonValueS02}
 						onClick={this.RSAEncryption.bind(this)}/>
 				</div>
 				<div className="Output">
@@ -284,7 +294,7 @@ class App extends Component {
 					placeholder="Nhập chữ ký để kiểm tra. Để trống nếu là ký ..."/>
 				<div className="Input">
 					<input type="button" disabled={this.state.isRSASigning}
-						className="button" value={buttonValueS03}
+						className="button multi-line" value={buttonValueS03}
 						onClick={this.RSASign.bind(this)}/>
 					<input type="text" className="Output-result"
 						readOnly value={this.state.RSASignResult}/>
@@ -304,7 +314,7 @@ class App extends Component {
 						<option value="Decryption">Decryption: Sử dụng khóa nhập vào để giải mã dữ liệu.</option>
 					  </select>
 					<input type="button" disabled={this.state.isAESEncrypting}
-						className="button" value={buttonValueS04}
+						className="button multi-line" value={buttonValueS04}
 						onClick={this.AESEncryption.bind(this)}/>
 				</div>
 				<div className="Output">
@@ -314,9 +324,9 @@ class App extends Component {
 			</div>
 			{/* Footer */}
 			<footer className="my-footer">
-				<li>Copyright © 2018 by <a href="https://www.qskminhquang.tk/" target="_blank" rel="noopener noreferrer">
+				<p>Copyright © 2018 by <a href="https://www.qskminhquang.tk/" target="_blank" rel="noopener noreferrer">
 					Minh Quang</a>. Original website design by <a href="https://codepen.io/MarcRay/pen/vmJBn" target="_blank" rel="noopener noreferrer">
-					MarcLibunao</a>. Image source: <a href="https://unsplash.com/" target="_blank" rel="noopener noreferrer">Unplash.</a></li>
+					MarcLibunao</a>. Image source: <a href="https://unsplash.com/" target="_blank" rel="noopener noreferrer">Unplash.</a></p>
 			</footer>
 		</div>
     );

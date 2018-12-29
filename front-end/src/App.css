@@ -38,23 +38,27 @@
 .my-footer {
   position: relative;
   bottom: 0;
-  margin-top: 50px;
+  margin-top: 35px;
   height: 70px;
   width: 100%;
   border-top: 1px solid gainsboro;
   text-align: center;
-  padding-top: 30px;
-}
-.my-footer li {
+  padding: 10px 20px;
   font-family: "Roboto Slab", serif;
   font-size: 12;
 }
 @media only screen and (max-width: 768px) {
-  .my-footer li {
-    font-size: 10;
+  .my-footer {
+    font-size: 8;
+	padding: 5px 10px;
   }
 }
-.my-footer li a {
+@media only screen and (max-width: 360px) {
+  .my-footer {
+	padding: 0px 10px;
+  }
+}
+.my-footer a {
   color: #F28500
 }
 
@@ -186,6 +190,11 @@
     font-size: 36px;
   }
 }
+@media only screen and (max-width: 360px) {
+  .banner h1 {
+    font-size: 28px;
+  }
+}
 .banner h1 span {
   font-size: 36px;
   color: #F28500;
@@ -199,12 +208,20 @@
   }
 }
 .banner p {
-  position: absolute;
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80%;
-  max-width: 940px;
+  padding-top: 20px;
+  padding-left: 16%;
+  padding-right: 16%;
+}
+@media only screen and (max-width: 768px) {
+  .banner p {
+	padding-top: 30px;
+    font-size: 16px;
+  }
+}
+@media only screen and (max-width: 360px) {
+  .banner p {
+    font-size: 15px;
+  }
 }
 .mouse {
   display: block;
@@ -320,6 +337,11 @@
 @media only screen and (max-width: 768px) {
   .Output p {
     font-size: 12px;
+	white-space: pre-wrap;      /* CSS3 */
+	white-space: -moz-pre-wrap; /* Firefox */
+	white-space: -pre-wrap;     /* Opera <7 */
+	white-space: -o-pre-wrap;   /* Opera 7 */
+	word-wrap: break-word;      /* IE */
   }
 }
 .Output textarea {
@@ -359,6 +381,7 @@
 @media only screen and (max-width: 768px) {
   .Output-result {
     font-size: 14px;
+	height: 40px;
   }
 }
 
@@ -378,6 +401,7 @@
 @media only screen and (max-width: 768px) {
   .select {
     font-size: 14px;
+	height: 40px;
   }
 }
 
@@ -389,12 +413,11 @@
   border: 1px solid #8f8f8f;
   background-color: #8f8f8f;
   padding: 10px 25px;
-  width: 26%;
 }
 @media only screen and (max-width: 768px) {
   .button {
+	padding: 10px 15px;
     font-size: 16px;
-	white-space: normal;
   }
 }
 .button:hover {
@@ -403,6 +426,10 @@
 .button:disabled {
   color: #8f8f8f;
   background-color: #fff;
+}
+.multi-line {
+  width: 26%;
+  white-space: normal;
 }
 
 /* Text Format */

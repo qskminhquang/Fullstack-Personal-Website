@@ -1,9 +1,9 @@
 const express = require('express');
 const path = require('path');
-var favicon = require('serve-favicon')
 const crypto = require('crypto');
 const NodeRSA = require('node-rsa');
 const bodyParser = require('body-parser');
+const favicon = require('serve-favicon');
 const app = express();
 
 app.use(bodyParser.json()); // support json encoded bodies
@@ -121,10 +121,10 @@ app.post('/api/aes-encryption', (req, res) => {
 if (process.env.NODE_ENV === 'production') {
   // Serve static files from the React app
   app.use(express.static(path.join(__dirname, 'front-end/build')));
-  app.use(favicon(path.join(__dirname + 'front-end/build/favicon.png')))
+  app.use(favicon(path.join(__dirname,'front-end/public', 'favicon.png')));
   // The "catchall" handler: for any request that doesn't
   // match one above, send back React's index.html file.
-  app.get('*', function(req, res) {
+  app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, 'front-end/build', 'index.html'));
   });
 }

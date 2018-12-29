@@ -22,8 +22,10 @@
   padding-bottom: 6px;
   font-family: "Montserrat", sans-serif;
 }
-.open-nav {
-  max-height: 400px !important;
+@media only screen and (max-width: 768px) {
+  .my-header {
+    padding-top: 25px;
+  }
 }
 .sticky {
   background-color: rgba(255, 255, 255, 1);
@@ -31,6 +33,32 @@
   top: 0px;
   border-bottom: 1px solid gainsboro;
 }
+
+/* Footer */
+.my-footer {
+  position: relative;
+  bottom: 0;
+  margin-top: 50px;
+  height: 70px;
+  width: 100%;
+  border-top: 1px solid gainsboro;
+  text-align: center;
+  padding-top: 30px;
+}
+.my-footer li {
+  font-family: "Roboto Slab", serif;
+  font-size: 12;
+}
+@media only screen and (max-width: 768px) {
+  .my-footer li {
+    font-size: 10;
+  }
+}
+.my-footer li a {
+  color: #F28500
+}
+
+/* Logo */
 .logo {
   width: 50px;
   font-size: 24px;
@@ -43,27 +71,13 @@
   line-height: 1;
   margin-bottom: 10px;
 }
+@media only screen and (max-width: 768px) {
+  .logo {
+    float: none;
+  }
+}
 .logo:hover {
   color: #F28500;
-}
-
-/* Footer */
-.my-footer {
-  position: relative;
-  bottom: 0;
-  margin-top: 50px;
-  height: 80px;
-  width: 100%;
-  border-top: 1px solid gainsboro;
-  text-align: center;
-  padding-top: 30px;
-}
-.my-footer li {
-  font-family: "Roboto Slab", serif;
-  font-size: 12;
-}
-.my-footer li a {
-  color: #F28500
 }
 
 /* Navigation */
@@ -71,16 +85,37 @@
   float: right;
   width: 90%;
 }
+@media only screen and (max-width: 768px) {
+  .my-nav {
+    width: 100%;
+  }
+}
 .my-nav ul {
   list-style: none;
   overflow: hidden;
   text-align: right;
   float: right;
 }
+@media only screen and (max-width: 768px) {
+  .my-nav ul {
+    padding-top: 10px;
+    margin-bottom: 22px;
+    float: left;
+    text-align: center;
+    width: 100%;
+  }
+}
 .my-nav ul li {
   display: inline-block;
   margin-left: 35px;
   line-height: 1.5;
+}
+@media only screen and (max-width: 768px) {
+  .my-nav ul li {
+    width: 100%;
+    padding: 7px 0;
+    margin: 0;
+  }
 }
 .my-nav ul a {
   color: #888888;
@@ -91,6 +126,40 @@
 .my-nav ul a:hover {
   color: #F28500;
   border-top: 1px solid #F28500;
+}
+
+/* Toggle */
+.my-toggle {
+  display: none;
+  cursor: pointer;
+  font-size: 20px;
+  position: absolute;
+  right: 22px;
+  top: 0;
+  width: 30px;
+  -webkit-transition: all 200ms ease-in;
+  -moz-transition: all 200ms ease-in;
+  transition: all 200ms ease-in;
+}
+@media only screen and (max-width: 768px) {
+  .my-toggle {
+    display: block;
+  }
+}
+.my-toggle span {
+  width: 30px;
+  height: 4px;
+  margin-bottom: 6px;
+  border-radius: 1000px;
+  background: #8f8f8f;
+  display: block;
+}
+.click {
+  transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+}
+.open-nav {
+  max-height: 400px !important;
 }
 
 /* Banner */
@@ -112,6 +181,11 @@
   line-height: 1;
   color: #F28500;
 }
+@media only screen and (max-width: 768px) {
+  .banner h1 {
+    font-size: 36px;
+  }
+}
 .banner h1 span {
   font-size: 36px;
   color: #F28500;
@@ -119,9 +193,18 @@
   padding-bottom: 12px;
   line-height: 3.5;
 }
+@media only screen and (max-width: 768px) {
+  .banner h1 span {
+    font-size: 24px;
+  }
+}
 .banner p {
-  padding-left: 20%;
-  padding-right: 20%;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 940px;
 }
 .mouse {
   display: block;
@@ -165,8 +248,8 @@
   position: relative;
   padding: 0 2%;
 }
-.row content {
-  padding: 50px 2% 250px;
+.content {
+  padding-right: 2%;
 }
 
 /* Input Text */
@@ -187,6 +270,11 @@
   border: 1px solid #e8e8e8;
   margin-bottom: 20px;
 }
+@media only screen and (max-width: 768px) {
+  .Input-text {
+    font-size: 14px;
+  }
+}
 .Input-text:focus {
   outline: 1px solid #F28500;
 }
@@ -200,6 +288,7 @@
   position: relative;
   text-align: center;
   margin-bottom: 20px;
+  width: 100%;
 }
 .Output h2 {
   font-family: "Courier New", monospace;
@@ -212,6 +301,11 @@
   border: 1px solid #e8e8e8;
   border-bottom: none;
 }
+@media only screen and (max-width: 768px) {
+  .Output h2 {
+    font-size: 18px;
+  }
+}
 .Output p {
   font-family: "Courier New", monospace;
   list-style: none;
@@ -222,6 +316,11 @@
   margin-top: 0;
   border: 1px solid #e8e8e8;
   border-top: none;
+}
+@media only screen and (max-width: 768px) {
+  .Output p {
+    font-size: 12px;
+  }
 }
 .Output textarea {
   display: block;
@@ -238,6 +337,11 @@
   background-color: #F9F9F9;
   border-top: none;
 }
+@media only screen and (max-width: 768px) {
+  .Output textarea {
+    font-size: 14px;
+  }
+}
 .Output-result {
   padding: 10px 25px;
   font-family: "Courier New", monospace;
@@ -247,10 +351,15 @@
   background-color: #F9F9F9;
   position: absolute;
   right: 0px;
-  width: 684px;
+  width: 72%; /*684px*/
   height: 45px;
   border: 1px solid #e8e8e8;
   margin-bottom: 20px;
+}
+@media only screen and (max-width: 768px) {
+  .Output-result {
+    font-size: 14px;
+  }
 }
 
 /* Select */
@@ -262,9 +371,14 @@
   border: 1px solid #e8e8e8;
   background-color: #F9F9F9;
   padding: 10px 25px;
-  width: 684px;
+  width: 72%;
   height: 45px;
-  margin-right: 20px;
+  margin-right: 2%;
+}
+@media only screen and (max-width: 768px) {
+  .select {
+    font-size: 14px;
+  }
 }
 
 /* Button */
@@ -275,6 +389,13 @@
   border: 1px solid #8f8f8f;
   background-color: #8f8f8f;
   padding: 10px 25px;
+  width: 26%;
+}
+@media only screen and (max-width: 768px) {
+  .button {
+    font-size: 16px;
+	white-space: normal;
+  }
 }
 .button:hover {
   background-color: #F28500;
@@ -297,6 +418,11 @@ h1 {
   text-transform: uppercase;
   font-family: "Montserrat", sans-serif;
 }
+@media only screen and (max-width: 768px) {
+  h1 {
+    font-size: 24px;
+  }
+}
 
 p {
   font-family: "Roboto Slab", serif;
@@ -304,6 +430,11 @@ p {
   margin-bottom: 20px;
   font-size: 18px;
   line-height: 2;
+}
+@media only screen and (max-width: 768px) {
+  p {
+    font-size: 14px;
+  }
 }
 
 @keyframes App-logo-spin {

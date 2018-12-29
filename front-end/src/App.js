@@ -6,6 +6,8 @@ var scroll = Scroll.animateScroll;
 class App extends Component {
   // Initialize state
   state = {
+	hasClassOpenNav: false,
+	hasClassSticky: true,
 	privatePem: null,
 	publicPem: null,
 	isLoadingKey: false,
@@ -25,7 +27,22 @@ class App extends Component {
   // Fetch RSAKey after first mount
   componentDidMount() {
 	document.title = 'Simple Cryptography | qskminhquang.tk';
+	window.onscroll = () => {
+		if(window.pageYOffset < 150)
+			this.setState({hasClassSticky: false});
+		else
+			this.setState({hasClassSticky: true});
+    };
 	this.getRSAKey();
+  }
+  
+  componentWillUnmount() {
+    window.onscroll = null;
+  }
+  
+  addClassOpenNav(e) {
+	e.preventDefault();
+    this.setState({hasClassOpenNav: !this.state.hasClassOpenNav});
   }
 
   scrollToTop(e) {
@@ -39,7 +56,7 @@ class App extends Component {
 
   scrollTo(e, offset) {
 	e.preventDefault();
-    scroll.scrollTo(offset - 70, {
+    scroll.scrollTo(offset, {
       duration: 800,
       delay: 0,
       smooth: 'easeInOutQuart'
@@ -158,10 +175,19 @@ class App extends Component {
 
   // Render app
   render() {
-	var buttonValueS01 = "Create RSA Key",
+	var HeaderClass = ['my-header'],
+		ToggleClass = ['my-toggle'],
+		buttonValueS01 = "Create RSA Key",
 		buttonValueS02 = "Let's do it",
 		buttonValueS03 = "Let's do it",
 		buttonValueS04 = "Let's do it";
+	if(this.state.hasClassSticky) {
+		HeaderClass.push('sticky');
+	}
+	if(this.state.hasClassOpenNav) {
+		HeaderClass.push('open-nav');
+		ToggleClass.push('click');
+	}
 	if (this.state.isLoadingKey) buttonValueS01 = "  Loading...  ";
 	if (this.state.isRSAEncrypting) buttonValueS02 = "Loading... ";
 	if (this.state.isRSASigning) buttonValueS03 = "Loading... ";
@@ -169,28 +195,34 @@ class App extends Component {
     return (
 		<div className="App">
 			{/* Header & Navigation */}
-			<header className="my-header">
+			<header className={HeaderClass.join(" ")}>
 				<div className="row">
 					<a className="logo" href="#home"
 						onClick={this.scrollToTop}>
 						428/512</a>
-					<div className="my-nav">
+					<div className={ToggleClass.join(" ")}
+						onClick={this.addClassOpenNav.bind(this)}>
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+					<nav className="my-nav">
 						<ul>
 							{/*document.getElementById("create-rsa-key").offsetTop;*/}
 							<li><a href="#create-rsa-key"
-								onClick={(e) => this.scrollTo(e, 600)}>
+								onClick={(e) => this.scrollTo(e, 600 - 70)}>
 								Create RSA Key</a></li>
 							<li><a href="#rsa-encryption"
-								onClick={(e) => this.scrollTo(e, 600 + 1346)}>
+								onClick={(e) => this.scrollTo(e, 1346 + 600 - 70)}>
 								Key Exchange</a></li>
 							<li><a href="#rsa-sign"
-								onClick={(e) => this.scrollTo(e, 600 + 2134)}>
+								onClick={(e) => this.scrollTo(e, 2134 + 600 - 70)}>
 								Sign/Verify</a></li>
 							<li><a href="#aes-encryption"
-								onClick={(e) => this.scrollTo(e, 600 + 2827)}>
+								onClick={(e) => this.scrollTo(e, 2827 + 600 - 70)}>
 								AES Encryption</a></li>
 						</ul>
-					</div>
+					</nav>
 				</div>
 			</header>
 			{/* Banner */}
@@ -204,7 +236,7 @@ class App extends Component {
 			{/* List Section */}
 			<div className="row content">
 				{/* Section 01: Create RSA Key */}
-				<h1 id="create-rsa-key">Khởi tạo khóa</h1>
+				<h1 id="create-rsa-key" ref="create-rsa-key">Khởi tạo khóa</h1>
 				<p>Tiến hành việc sinh khóa RSA. Trong đó, cặp khóa khởi tạo bằng module <a href="https://www.npmjs.com/package/node-rsa" target="_blank" rel="noopener noreferrer">node-rsa</a>, có độ dài 2048-bits và được hiển thị dưới định dạng PEM-Base64 với tiêu chuẩn PKCS#1 cho khóa Private và PKCS#8 cho khóa Public.</p>
 				<div className="Output">
 					<input type="button" disabled={this.state.isLoadingKey}
@@ -216,7 +248,7 @@ class App extends Component {
 					<p>{this.state.publicPem}</p>
 				</div>
 				{/* Section 02: Key Exchange */}
-				<h1 id="rsa-encryption">trao đổi khóa</h1>
+				<h1 id="rsa-encryption" ref="rsa-encryption">trao đổi khóa</h1>
 				<p>Trong đồ án này nhóm không thực hiện một thuật toán trao đổi khóa chính quy (như Diffie–Hellman,...) mà chỉ thực hiện việc mã hóa một khóa AES cho trước bằng RSA hoặc tiến hành việc giải mã ngược lại để lấy khóa.</p>
 				<textarea name="RSAKey" className="Input-text" rows="3"
 					onChange={this.handleChange.bind(this)}
@@ -238,7 +270,7 @@ class App extends Component {
 					<textarea readOnly rows="3" value={this.state.RSAOutput}/>
 				</div>
 				{/* Section 03: Sign/Verify */}
-				<h1 id="rsa-sign">Ký và xác minh chữ ký</h1>
+				<h1 id="rsa-sign" ref="rsa-sign">Ký và xác minh chữ ký</h1>
 				<p>Sử dụng RSA để tạo chữ ký (Sign) cho dữ liệu hoặc xác minh chữ ký (Verify) xem có ứng với dữ liệu gốc hay không. Tiến hành nhập đầy đủ các thông tin bên dưới và thực thi.</p>
 				<textarea name="RSAKey" className="Input-text"
 					onChange={this.handleChange.bind(this)} rows="3"
@@ -258,7 +290,7 @@ class App extends Component {
 						readOnly value={this.state.RSASignResult}/>
 				</div>
 				{/* Section 04: AES Encryption */}
-				<h1 id="aes-encryption">Mã hóa dữ liệu</h1>
+				<h1 id="aes-encryption" ref="aes-encryption">Mã hóa dữ liệu</h1>
 				<p>Tiến hành thực hiện mã hóa/giải mã dữ liệu nhập vào bằng thuật toán AES với khóa 256-bits và Mode-CBC (Cipher Block Chaining). Ngoài ra còn sử dụng hàm băm SHA-256 để băm khóa người dùng nhập vào, đảm bảo khóa cuối cùng có độ dài đúng bằng 256-bits.</p>
 				<textarea name="inputText" className="Input-text" rows="3"
 					onChange={this.handleChange.bind(this)}

@@ -74,6 +74,11 @@ class App extends Component {
 	this.setState({hasClassOpenNav: false});
   }
   
+  handleChange(e) {
+	// Named the inputs to match their corresponding values in state
+	this.setState({ [e.target.name]: e.target.value });
+  }
+  
   // Get the RSAKey and store them in state
   getRSAKey() {
 	this.setState({isLoadingKey: true});
@@ -84,11 +89,6 @@ class App extends Component {
 		publicPem: data.publicPem,
 		isLoadingKey: false
 	  }));
-  }
-  
-  handleChange(e) {
-	// Named the inputs to match their corresponding values in state
-	this.setState({ [e.target.name]: e.target.value });
   }
   
   RSAEncryption() {
@@ -109,7 +109,7 @@ class App extends Component {
     }).then(res => res.json())
 	.then(data => {
 		var dataOutput = data.RSAOutput;
-		if (dataOutput === 'null')
+		if (dataOutput.startsWith('err'))
 			dataOutput = 'Đã có lỗi xảy ra, vui lòng kiểm tra lại khóa và thử lại sau.';
 		this.setState({
 			RSAOutput: dataOutput,
@@ -184,11 +184,11 @@ class App extends Component {
 				break;
 			case 'err2':
 				if(dataOutput.endsWith('bad decrypt'))
-					dataOutput = 'KEY ERROR: Khóa không hợp lệ.';
+					dataOutput = 'KEY ERROR: Khóa không chính xác.';
 				else
 					dataOutput = 'DECRYPT ERROR: Bản mã lỗi, hãy kiểm tra lại.';
 				break;
-			default:
+			default:	// without error
 				;
 		}
 		this.setState({

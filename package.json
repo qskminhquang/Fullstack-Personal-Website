@@ -1,7 +1,7 @@
 {
-  "name": "Simple-Cryptography",
+  "name": "Back-end",
   "version": "1.0.0",
-  "description": "Back-end of https://crypto.qskminhquang.tk",
+  "description": "Back-end of https://qskminhquang.tk",
   "main": "index.js",
   "keywords": [],
   "author": "qskminhquang",
@@ -9,10 +9,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "heroku-postbuild": "cd simple-cryptography-frontend && npm install && npm run build",
-    "simple-cryptography": "cd simple-cryptography-frontend && npm start",
+    "heroku-postbuild": "cd simple-crypto-frontend && npm install && npm run build",
+    "simple-crypto": "cd simple-crypto-frontend && npm start",
     "back-end": "nodemon index.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run back-end\" \"npm run simple-cryptography\""
+    "dev": "concurrently --kill-others-on-fail \"npm run back-end\" \"npm run simple-crypto\""
   },
   "dependencies": {
     "body-parser": "^1.18.3",

@@ -10,7 +10,7 @@ class App extends Component {
 	widthOfPage: 888,
 	fixOffsetTop: 600 - 70,
 	hasClassOpenNav: false,
-	hasClassSticky: true,
+	hasClassSticky: false,
 	privatePem: null,
 	publicPem: null,
 	isLoadingKey: false,
@@ -29,7 +29,6 @@ class App extends Component {
 	};
   // Fetch RSAKey after first mount
   componentDidMount() {
-	document.title = 'Simple Cryptography | qskminhquang.tk';
 	window.onscroll = () => {
 		if(window.pageYOffset < 100)
 			this.setState({hasClassSticky: false});
@@ -202,6 +201,7 @@ class App extends Component {
   render() {
 	var HeaderClass = ['my-header'],
 		ToggleClass = ['my-toggle'],
+		DashClass = ['dash'],
 		doit = "Let's do it",
 		loading = "Loading... ";
 	if(this.state.hasClassSticky) {
@@ -210,6 +210,7 @@ class App extends Component {
 	if(this.state.hasClassOpenNav) {
 		HeaderClass.push('open-nav');
 		ToggleClass.push('click');
+		DashClass.push('orange');
 	}
 	if(this.state.widthOfPage <= 768) {
 		doit = "Done";
@@ -233,9 +234,9 @@ class App extends Component {
 						428/512</a>
 					<div className={ToggleClass.join(" ")}
 						onClick={this.clickToggle.bind(this)}>
-						<span></span>
-						<span></span>
-						<span></span>
+						<div className={DashClass.join(" ")}/>
+						<div className={DashClass.join(" ")}/>
+						<div className={DashClass.join(" ")}/>
 					</div>
 					<nav className="my-nav">
 						<ul>
@@ -274,14 +275,14 @@ class App extends Component {
 						className="button" value={buttonValueS01}
 						onClick={this.getRSAKey.bind(this)}/>
 					<h2>Private Key</h2>
-					<p>{this.state.privatePem}</p>
+					<textarea className="Output-key" readOnly rows="27" value={this.state.privatePem}/>
 					<h2>Public Key</h2>
-					<p>{this.state.publicPem}</p>
+					<textarea className="Output-key" readOnly rows="9" value={this.state.publicPem}/>
 				</div>
 				{/* Section 02: Key Exchange */}
 				<h1 id="rsa-encryption" ref="rsa-encryption">trao đổi khóa</h1>
 				<p>Trong đồ án này nhóm chỉ sử dụng RSA để trao đổi khóa, chứ không triển khai các thuật toán khác như Diffie–Hellman, ECDH, PSK,... Cụ thể, sẽ thực hiện việc mã hóa một khóa AES cho trước bằng RSA hoặc tiến hành việc giải mã ngược lại để thu được khóa ban đầu. Nói cách khác đây chính là quá trình mã hóa/giải mã dữ liệu người dùng nhập vào bằng RSA, bản mã được Encode-Base64.</p>
-				<textarea name="RSAKey" className="Input-text" rows="3"
+				<textarea name="RSAKey" className="Input-text" rows="3" required
 					onChange={this.handleChange.bind(this)}
 					placeholder="Nhập khóa RSA. Khóa Public/Private để mã hóa hoăc giải mã ..."/>
 				<textarea name="inputText" className="Input-text" rows="3"

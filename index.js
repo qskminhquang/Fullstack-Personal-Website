@@ -5,8 +5,10 @@ const NodeRSA = require('node-rsa');
 const bodyParser = require('body-parser');
 const favicon = require('serve-favicon');
 const helmet = require('helmet');
+const internalIp = require('internal-ip');
 const sixtyDaysInSeconds = 5184000;
 const app = express();
+const PORT = process.env.PORT || 5000;
 
 // My function
 function getClientInfo(req) {
@@ -17,7 +19,6 @@ function getClientInfo(req) {
   return info;
 }
 
-app.set('port', (process.env.PORT || 5000));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(favicon(path.join(__dirname, '/simple-crypto-frontend/public/favicon.png')));
@@ -49,9 +50,9 @@ app.get('/crypto', (req, res) => {
 });
 
 // API request with /api/some-thing
-var countRSACreateKey = 0;
+var countRSAKey = 0;
 app.get('/api/create-rsa-key', (req, res) => {
-  countRSACreateKey++;
+  countRSAKey++;
   console.log(getClientInfo(req));
   // Generate RSA Key
   var key = new NodeRSA({b: 2048});
@@ -61,7 +62,7 @@ app.get('/api/create-rsa-key', (req, res) => {
   };
   // Return them as json
   res.json(keyPair);
-  console.log('> Created new RSAKey #' + countRSACreateKey);
+  console.log('> Created new RSAKey #' + countRSAKey);
   console.log();
 });
 
@@ -93,7 +94,7 @@ app.post('/api/rsa-encryption', (req, res) => {
   // Return result as json
   res.json({RSAOutput: result});
   if(result.startsWith('err')) {
-	  console.log('> RSA ' + RSAType + 'is not complete');
+	  console.log('> RSA ' + RSAType + ' is not complete');
 	  console.log('  ' + result);
   } else {
 	  console.log('> RSA ' + RSAType + ' is complete');
@@ -174,8 +175,9 @@ app.post('/api/aes-encryption', (req, res) => {
 });
 
 // Start back-end
-app.listen(app.get('port'), () => {
-  console.log('> *******************************');
-  console.log('> Back-end listening on port', app.get('port'));
+app.listen(PORT, () => {
+  console.log('> Back-end listening on port ' + PORT + ', view in your the browser');
+  console.log('  Local:            http://localhost:' + PORT + '/');
+  console.log('  On Your Network:  http://' + internalIp.v4.sync() + ':' + PORT + '/');
   console.log();
-})
+});

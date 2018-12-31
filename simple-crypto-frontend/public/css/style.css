@@ -374,6 +374,7 @@
   .Output-result {
     font-size: 14px;
 	height: 40px;
+	padding: 10px 10px;
   }
 }
 
@@ -394,6 +395,7 @@
   .select {
     font-size: 14px;
 	height: 40px;
+	padding: 10px 10px;
   }
 }
 

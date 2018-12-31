@@ -174,9 +174,23 @@ class App extends Component {
       body: JSON.stringify(post),
     }).then(res => res.json())
 	.then(data => {
-		var dataOutput = data.AESOutput;
-		if (dataOutput === 'null')
-			dataOutput = 'Đã có lỗi xảy ra, vui lòng thử lại sau.';
+		var dataOutput = data.AESOutput; ;
+		switch(dataOutput.substring(0, 4)) {
+			case 'err0':
+				dataOutput = 'KEY ERROR: Khóa không hợp lệ.';
+				break;
+			case 'err1':
+				dataOutput = 'DATA ERROR: Dữ liệu bị bỏ trống.';
+				break;
+			case 'err2':
+				if(dataOutput.endsWith('bad decrypt'))
+					dataOutput = 'KEY ERROR: Khóa không hợp lệ.';
+				else
+					dataOutput = 'DECRYPT ERROR: Bản mã lỗi, hãy kiểm tra lại.';
+				break;
+			default:
+				;
+		}
 		this.setState({
 			AESOutput: dataOutput,
 			isAESEncrypting: false});
@@ -266,7 +280,7 @@ class App extends Component {
 				</div>
 				{/* Section 02: Key Exchange */}
 				<h1 id="rsa-encryption" ref="rsa-encryption">trao đổi khóa</h1>
-				<p>Trong đồ án này nhóm chỉ sử dụng RSA để trao đổi khóa, chứ không triển khai các thuật toán khác như Diffie–Hellman, ECDH, PSK,... Cụ thể, sẽ thực hiện việc mã hóa một khóa AES cho trước bằng RSA hoặc tiến hành việc giải mã ngược lại để thu được khóa ban đầu. Nói cách khác đây chính là quá trình mã hóa/giải mã dữ liệu người dùng nhập vào bằng RSA.</p>
+				<p>Trong đồ án này nhóm chỉ sử dụng RSA để trao đổi khóa, chứ không triển khai các thuật toán khác như Diffie–Hellman, ECDH, PSK,... Cụ thể, sẽ thực hiện việc mã hóa một khóa AES cho trước bằng RSA hoặc tiến hành việc giải mã ngược lại để thu được khóa ban đầu. Nói cách khác đây chính là quá trình mã hóa/giải mã dữ liệu người dùng nhập vào bằng RSA, bản mã được Encode-Base64.</p>
 				<textarea name="RSAKey" className="Input-text" rows="3"
 					onChange={this.handleChange.bind(this)}
 					placeholder="Nhập khóa RSA. Khóa Public/Private để mã hóa hoăc giải mã ..."/>
@@ -288,7 +302,7 @@ class App extends Component {
 				</div>
 				{/* Section 03: Sign/Verify */}
 				<h1 id="rsa-sign" ref="rsa-sign">Ký và xác minh chữ ký</h1>
-				<p>Sử dụng RSA để tạo chữ ký (Sign) cho dữ liệu hoặc xác minh chữ ký (Verify) xem có ứng với dữ liệu gốc hay không. Cả hai quá trình phải thực hiện trên cùng một dữ liệu ban đầu.</p>
+				<p>Sử dụng RSA để tạo chữ ký (Sign) cho dữ liệu hoặc xác minh chữ ký (Verify) xem có ứng với dữ liệu gốc hay không. Cả hai quá trình phải thực hiện trên cùng một dữ liệu ban đầu, chữ ký được Encode-Base64.</p>
 				<textarea name="RSAKey" className="Input-text"
 					onChange={this.handleChange.bind(this)} rows="3"
 					placeholder="Nhập khóa RSA. Khóa Private/Public để ký hoăc kiểm tra chữ ký ..."/>
@@ -317,7 +331,7 @@ class App extends Component {
 					placeholder="Nhập khóa AES ..."/>
 				<div className="Input">
 					<select className="select" name="AESType" value={this.state.AESType} onChange={this.handleChange.bind(this)}>
-						<option value="Encryption">Encryption: Mã hóa dữ lệu với khóa được cung cấp.</option>
+						<option value="Encryption">Encryption: Mã hóa dữ liệu với khóa được cung cấp.</option>
 						<option value="Decryption">Decryption: Sử dụng khóa nhập vào để giải mã dữ liệu.</option>
 					  </select>
 					<input type="button" disabled={this.state.isAESEncrypting}
@@ -332,7 +346,7 @@ class App extends Component {
 			{/* Footer */}
 			<footer className="my-footer">
 				<p>Copyright © 2018 by <a href="https://www.qskminhquang.tk/" target="_blank" rel="noopener noreferrer">
-					Minh Quang</a>. Original website design by <a href="https://codepen.io/MarcRay/pen/vmJBn" target="_blank" rel="noopener noreferrer">
+					Minh Quang</a>. Original web design by <a href="https://codepen.io/MarcRay/pen/vmJBn" target="_blank" rel="noopener noreferrer">
 					MarcLibunao</a>. Image source: <a href="https://unsplash.com/" target="_blank" rel="noopener noreferrer">Unplash.</a></p>
 			</footer>
 		</div>

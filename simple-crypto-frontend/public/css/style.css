@@ -289,7 +289,7 @@
 @media only screen and (max-width: 768px) {
   .Input-text {
     font-size: 14px;
-	padding: 0px 10px;
+	padding: 5px 10px;
   }
 }
 .Input-text:focus {
@@ -340,7 +340,7 @@
 @media only screen and (max-width: 768px) {
   .Output textarea {
     font-size: 14px;
-	padding: 0px 10px;
+	padding: 5px 10px;
   }
 }
 .Output-key {
@@ -348,7 +348,7 @@
 }
 @media only screen and (max-width: 768px) {
   .Output-key {
-	max-height: 125px;
+	max-height: 140px;
 	white-space: pre-wrap;      /* CSS3 */
 	white-space: -moz-pre-wrap; /* Firefox */
 	white-space: -pre-wrap;     /* Opera <7 */
@@ -374,7 +374,7 @@
   .Output-result {
     font-size: 14px;
 	height: 40px;
-	padding: 10px 10px;
+	padding: 5px 10px;
   }
 }
 
@@ -395,7 +395,7 @@
   .select {
     font-size: 14px;
 	height: 40px;
-	padding: 10px 10px;
+	padding: 5px 5px;
   }
 }
 

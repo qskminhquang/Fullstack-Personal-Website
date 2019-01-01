@@ -3818,10 +3818,6 @@
 				font-size: 4em;
 			}
 
-			#banner .more {
-				display: none;
-			}
-
 		}
 
 		body.is-loading #banner .inner {
@@ -4180,10 +4176,6 @@
 
 			.post h2 {
 				font-size: 1.25em;
-			}
-
-			.post .more {
-				display: none;
 			}
 
 			.post .button {

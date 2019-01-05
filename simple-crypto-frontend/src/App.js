@@ -291,7 +291,7 @@ class App extends Component {
 				<div className="Input">
 					<select className="select" name="RSAType" value={this.state.RSAType} onChange={this.handleChange.bind(this)}>
 						<option value="Encryption">Encryption: Mã hóa khóa AES bằng RSA với khóa Public.</option>
-						<option value="Decryption">Decryption: Giải mã khóa AES bằng RSA với khóa Private.</option>
+						<option value="Decryption">Decryption: Dùng RSA với khóa Private để giải mã.</option>
 					  </select>
 					<input type="button" disabled={this.state.isRSAEncrypting}
 						className="button multi-line" value={buttonValueS02}

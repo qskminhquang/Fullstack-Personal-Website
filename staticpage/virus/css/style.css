@@ -1,0 +1,45 @@
+@-webkit-keyframes blink {
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+html, body {
+  background-color: black;
+  overflow: hidden;
+  color: red;
+  font-family: 'Share Tech Mono', monospace;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.blink {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  -webkit-animation: blink 0.8s steps(1, start) infinite alternate;
+  animation: blink 0.8s steps(1, start) infinite alternate;
+}
+@media only screen and (max-width: 360px) {
+  .blink {
+	position: relative;
+	top: 200px;
+	left: 170px;
+  }
+}

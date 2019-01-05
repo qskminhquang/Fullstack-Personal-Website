@@ -165,7 +165,7 @@
 /* Banner */
 .banner {
   position: relative;
-  background: url(https://www.qskminhquang.tk/images/banner-tech.jpg) no-repeat center center fixed;
+  background: url(../images/banner-tech.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;

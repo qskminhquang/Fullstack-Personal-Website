@@ -13,8 +13,8 @@ const IP = internalIp.v4.sync();
 const HASHPASS = 'fbeac5e8695a5ca07a4a894b6a2b7490';	// ?password=minhqung
 // My function
 function getClientInfo(req) {
-  var info = '> Client info:'
-	+ '\n  IP Address: ' + req.ip	// Get IP - allow for proxy
+  var info = '> New Request:'
+	+ '\n  ClientIP: ' + req.ip	// Get IP - allow for proxy
 	+ '\n  Action: ' + req.method + ' ' + req.protocol + '://' + req.header('host')	// GET, POST
     + '\n  URL: '  + req.originalUrl;	// Likewise for referrer
   return info;
@@ -42,6 +42,7 @@ app.use(helmet.frameguard({ action: 'sameorigin' }));	// Sets "X-Frame-Options: 
 app.get('/', (req, res) => {
   console.log(getClientInfo(req));
   res.sendFile(path.join(__dirname, '/homepage/index.html'));
+  console.log('> OK200: Send /homepage/index.html');
   console.log();
 });
 
@@ -51,12 +52,15 @@ app.get('/login', (req, res) => {
   var password = req.query.password || 'null';
   if (password.length < 8) {
 	  res.sendFile(path.join(__dirname, '/staticpage/login/index.html'));
+	  console.log('> OK200: Send /login/index.html');
   } else {
 	  var hashPassword = crypto.createHash('md5').update(password).digest('hex');
 	  if (hashPassword !== HASHPASS) {
 		  res.sendFile(path.join(__dirname, '/staticpage/virus/index.html'));
+		  console.log('> Password Incorrect: Send /virus/index.html');
 	  } else {
 		  res.sendFile(path.join(__dirname, '/homepage/index.html'));
+		  console.log('> Password is correct: Send /homepage/index.html');
 	  }
   }
   console.log();
@@ -69,6 +73,7 @@ app.get('/login', (req, res) => {
 app.get('/crypto', (req, res) => {
   console.log(getClientInfo(req));
   res.sendFile(path.join(__dirname, '/simple-crypto-frontend/build/index.html'));
+  console.log('> OK200: Send /crypto/index.html');
   console.log();
 });
 
@@ -92,14 +97,17 @@ app.get('/api/create-rsa-key', (req, res) => {
 // Other request
 app.get('/*', (req, res) => {
   console.log(getClientInfo(req));
-  if (!req.originalUrl.startsWith('/dir_')) {
-	  res.redirect('/dir_crypto' + req.originalUrl);
+  var url = req.originalUrl;
+  if (!url.startsWith('/dir_')) {
+	  res.redirect('/dir_crypto' + url);
+	  console.log('> Redirect: ' + '/dir_crypto' + url);
   } else {
 	  var err404 = '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">'
 		+ '<title>Error</title><style></style></head><body><pre>Cannot GET '
-		+ req.originalUrl.substring(11) + '</pre></body></html>';
+		+ url.substring(11) + '</pre></body></html>';
 	  res.status(404);
 	  res.send(err404);
+	  console.log('> ERR404: ' + url + ' not found');
   }
   console.log();
 });
@@ -172,7 +180,7 @@ app.post('/api/rsa-sign', (req, res) => {
   }
   // Return result as json
   res.json({RSASignResult: result, RSASignature: RSASignature});
-  console.log('> Sign/Verify status: ' + result);
+  console.log('> Status: ' + result);
   console.log();
 });
 

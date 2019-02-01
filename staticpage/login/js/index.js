@@ -37,8 +37,19 @@
 		});
 
 		$('.login').on('click', function() {
-			window.location = '?password=' + password;
-			// window.location.href = "http://www.google.com";
+			var md5 = CryptoJS.MD5(password).toString();
+			var token = '';
+			for(i = 0; i < md5.length; i++) {
+				if(i % 2 === 0) {
+					token += md5.charAt(i);
+					token += Math.floor(Math.random() * 36).toString(36);
+				}
+				else {
+					token += md5.charAt(i);
+				}
+			}
+			window.location = '?token=' + token;
+			//window.location.href = "http://www.google.com";
 		});
 
 		$('.rerun').on('click', function() {

@@ -10,7 +10,8 @@ const sixtyDaysInSeconds = 5184000;
 const app = express();
 const PORT = process.env.PORT || 5000;
 const IP = internalIp.v4.sync();
-const HASHPASS = 'fbeac5e8695a5ca07a4a894b6a2b7490';	// ?password=minhqung
+const HASHPASS = '459214ccfd3fb941a87ccec2bfb47590';	// password=quang248
+
 // My function
 function getClientInfo(req) {
   var info = '> New Request:'
@@ -46,22 +47,44 @@ app.get('/', (req, res) => {
   console.log();
 });
 
+// MD5 request
+app.get('/md5', (req, res) => {
+  console.log(getClientInfo(req));
+  var str = req.query.str || 'null';
+  var hash = crypto.createHash('md5').update(str).digest('hex');
+  res.status(200);
+	res.send(hash);
+  console.log('> Hash: ' + hash);
+  console.log();
+});
+
 // Login request
 app.get('/login', (req, res) => {
   console.log(getClientInfo(req));
-  var password = req.query.password || 'null';
-  if (password.length < 8) {
+  var token = req.query.token || 'null';
+  if (token.length < HASHPASS.length) {
 	  res.sendFile(path.join(__dirname, '/staticpage/login/index.html'));
 	  console.log('> OK200: Send /login/index.html');
   } else {
-	  var hashPassword = crypto.createHash('md5').update(password).digest('hex');
-	  if (hashPassword !== HASHPASS) {
-		  res.sendFile(path.join(__dirname, '/staticpage/virus/index.html'));
-		  console.log('> Password Incorrect: Send /virus/index.html');
-	  } else {
-		  res.sendFile(path.join(__dirname, '/homepage/index.html'));
-		  console.log('> Password is correct: Send /homepage/index.html');
-	  }
+    var hash = '', check = 0, counter = 0;
+    for(i = 0; i < token.length; i++) {
+      if(i % 2 === check) {
+        hash += token.charAt(i);
+        counter++;
+        if(counter === 2) {
+          check = 1 - check;
+          counter = 0;
+        }
+      }
+    }
+    console.log('> Hash: ' + hash);
+    if (hash !== HASHPASS) {
+      res.sendFile(path.join(__dirname, '/staticpage/virus/index.html'));
+      console.log('> Hash Incorrect: Send /virus/index.html');
+    } else {
+      res.sendFile(path.join(__dirname, '/staticpage/' + hash + '/index.html'));
+      console.log('> Hash is Correct: Send ' + '/staticpage/' + hash + '/index.html');
+    }
   }
   console.log();
 });

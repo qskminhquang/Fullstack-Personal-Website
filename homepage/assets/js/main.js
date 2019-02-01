@@ -31,12 +31,12 @@
 					$body.removeClass('is-loading');
 				}, 100);
 				// Scroll to more button in mobile browsers
-				window.setTimeout(function() {
+				/*window.setTimeout(function() {
 					window.scrollTo({
 						top: 50,
 						behavior: 'smooth',
 					});
-				}, 3000);
+				}, 3000);*/
 			});
 			
 		// Fix: Placeholder polyfill.

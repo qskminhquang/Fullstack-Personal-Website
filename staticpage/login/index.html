@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+<!--
+	Console Login
+	Copyright (c) 2018 by Minh Quang (https://www.qskminhquang.tk/)
+	Fork of an original work by Marco Fugaro (https://codepen.io/marco_fugaro/pen/XbxNVx)
+	Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+	The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
 <html lang="en">
 	<head>
 		<title>Login Page | qskminhquang.tk</title>
@@ -13,15 +21,16 @@
 		<div class="info">
 			<p>You are accessing the Private-Database, it contains many Classified Information.
 			<br/>You need permission to perform this action...</p>
-			<p class="hidden">Please enter your password to login<span class="blink">_</span></p>
+			<p class="hidden">Please enter your password to login. example: quang248<span class="blink">_</span></p>
 		</div>
 		<div class="button start">ENTER YOUR PASSWORD</div>
 		<div class="password hidden"></div>
 		<input type="password" class="dummy" id="dummy"/>
-		<div class="blink accepted hidden">PASSWORD ACCEPTED!</div>
+		<div class="blink accepted hidden">CLICK LOGIN TO CONTINUE!</div>
 		<div class="button login hidden">LOGIN</div>
 		<div class="button rerun hidden">START OVER</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
 		<script src="/dir_staticpage/login/js/index.js"></script>
 	</body>
 </html>

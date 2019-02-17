@@ -69,7 +69,7 @@ body {
   text-transform: uppercase;
 }
 
-.accepted {
+.continue {
   position: absolute;
   top: 60%;
   left: 50%;
@@ -78,8 +78,9 @@ body {
   font-size: 30px;
 }
 @media only screen and (max-width: 360px) {
-  .accepted {
-	  top: 65%;
+  .continue {
+    top: 65%;
+    text-align: center;
     font-size: 18px;
   }
 }

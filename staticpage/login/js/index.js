@@ -32,7 +32,7 @@
 				counter = password.length;
 			}
 			if (counter >= PASS_LENGTH){
-				$('.accepted, .login, .rerun').removeClass('hidden');
+				$('.continue, .login, .rerun').removeClass('hidden');
 			}
 		});
 
@@ -53,7 +53,7 @@
 		});
 
 		$('.rerun').on('click', function() {
-			$('.accepted, .login, .rerun').addClass('hidden');
+			$('.continue, .login, .rerun').addClass('hidden');
 			password = '';
 			characters = [];
 			counter = 0;
